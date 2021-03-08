@@ -17,6 +17,14 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const app = createApp(App).use(router, store)
-app.config.globalProperties.$http = axios
-app.mount('#app')
+
+let app
+firebase.auth().onAuthStateChanged(user => {
+  console.log('user', user)
+  if(!app) {
+    app = createApp(App).use(router, store)
+    app.config.globalProperties.$http = axios
+    app.mount('#app')
+    
+  }
+})
